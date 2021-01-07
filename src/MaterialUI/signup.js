@@ -18,8 +18,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="#">
+        Akshay Kurhekar 2021
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -59,12 +59,15 @@ export default function SignUp() {
         Axios.post('http://localhost:3001/api/insert',{
             nameUser: UserName,
         password: Password
+        }).then(response => {
+           console.log(response.data);
+            if(response.data.message ==="success")
+            {
+                alert("Register success");
+            }else{
+                alert("Register Failed..try again..");
+            }
         });
-
-        // setList([
-        //     ...userList,
-        //     {name: Name, password: Password}
-        // ]);
        
     }else{
         alert("Enter Name and Password..");
@@ -82,7 +85,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} >
           <TextField
             variant="outlined"
             margin="normal"
@@ -119,7 +122,7 @@ export default function SignUp() {
             label="Remember me"
           />
           <Button
-            type="submit"
+            
             fullWidth
             variant="contained"
             color="primary"

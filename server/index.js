@@ -22,21 +22,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //get request to select data
 app.post("/api/get",(req,res) =>{
     const Name = req.body.nameUser;
-    const Password = req.body.password;
-    console.log("Name.."+ Name + Password);
+    const password = req.body.password;
+    // console.log("User: "+ Name +" Pass: "+ password);
     // const sqlInsert= "SELECT * FROM pdotable where name=?, password=?"; 
   
-    db.query("SELECT * FROM pdotable where name=? AND password=?",[Name,Password],(err,result)=>{
+    db.query("SELECT * FROM pdotable where name=?",[Name],(err,result)=>{
         if(err){
             console.log(err);      
         }else{
             if(result.length > 0){
-                res.send('pass');      
+                //console.log(result[0].password);
+                //res.send(result);
+                bcrypt.compare(password, result[0].password, (error,response)=>{
+                    if(error){
+                        console.log(error);
+                        res.send(error);
+                    }else{
+                        res.send({message: "success"});       
+                    }
+                })
             }else{
-                 res.send({message: "Wrong UserName/Password !"});      
+                 res.send({message: "User Not Exist !"});      
             }
-        }        
-       
+        }
   }); 
 });
 
@@ -53,8 +61,12 @@ app.post("/api/insert",(req,res) => {
 
         const sqlInsert= "INSERT INTO `pdotable`(`name`,`password`) VALUES(?,?)"; 
         db.query(sqlInsert,[Name , hash],(err,result)=>{
-          //  console.log("Error:"+err);
-          //  console.log(result);      
+            if(err){
+                console.log("Error:"+err);  
+            }else{
+                console.log(result); 
+                res.send({message:"success"});       
+            }
         }); 
     })  
 });

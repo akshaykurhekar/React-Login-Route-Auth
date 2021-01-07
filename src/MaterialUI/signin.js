@@ -58,27 +58,24 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   const [UserName , setUserName] = useState("");
-  const [Password , setPassword] = useState("");  
-  console.log(" username" +UserName + ".."+Password);
+  const [Password , setPassword] = useState(""); 
+
   const history = useHistory();
-  function forwardTo(location) {
-    history.push(location);
- } 
+
   const submit = ()=>{
 
     if(UserName!=='' && Password!==''){
         Axios.post('http://localhost:3001/api/get',{
             nameUser: UserName,
             password: Password
-        }).then(response => {
-            // console.log(response.data);
-            if(response.data ==="pass")
+        }).then(response => {             
+
+            if(response.data.message ==="success")
             {
-               // alert("Login success");
-               // history.push('/Dashbord');
-                forwardTo('/Dashbord');
+               history.push('/Dashbord');
+               
             }else{
-                alert("Login Failed..try again..");
+                alert("Login failed Plz Try Again");
             }
         });
  
@@ -103,7 +100,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} >
           <TextField
             variant="outlined"
             margin="normal"
@@ -140,7 +137,7 @@ export default function SignIn() {
             label="Remember me"
           />
           <Button
-            type="submit"
+            // type="submit"
             fullWidth
             variant="contained"
             color="primary"

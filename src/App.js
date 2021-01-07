@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import {   
     Switch,
@@ -11,6 +12,7 @@ import Dashbord from './MaterialUI/Dashbord';
 
 function App() {
   return (
+    <React.Fragment>
     <div className="App">
         <h1>React Login Auth. Using Node.js & MySql</h1>
         <Switch>
@@ -20,6 +22,7 @@ function App() {
             <Route component={Error}  />  
         </Switch>
     </div>
+    </React.Fragment>
   );
 }
 
