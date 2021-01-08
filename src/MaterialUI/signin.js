@@ -1,4 +1,4 @@
-import React ,{ useState } from 'react';
+import React ,{ useState, useEffect } from 'react';
 import {   
     Switch,
     Route,    
@@ -20,13 +20,14 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Dashbord from './Dashbord';
+import { connect } from 'react-redux';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="#">
+        Akshay Kurhekar
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -55,11 +56,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function SignIn() {
+function SignIn(props) {
   const classes = useStyles();
   const [UserName , setUserName] = useState("");
   const [Password , setPassword] = useState(""); 
-
+  const [Session , setSession] = useState("");   
   const history = useHistory();
 
   const submit = ()=>{
@@ -71,23 +72,18 @@ export default function SignIn() {
         }).then(response => {             
 
             if(response.data.message ==="success")
-            {
+            { 
+              props.changeName(true);
                history.push('/Dashbord');
                
             }else{
                 alert("Login failed Plz Try Again");
             }
         });
- 
-        // setList([
-        //     ...userList,
-        //     {name: Name, password: Password}
-        // ]);
-       
+        
     }else{
         alert("Enter Name and Password..");
-    }
-   
+    }   
 };
 
   return (
@@ -160,9 +156,24 @@ export default function SignIn() {
           </Grid>
         </form>
       </div>
+      <h1>{Session}</h1>
       <Box mt={8}>
         <Copyright />
       </Box>
     </Container>
   );
 }
+
+const mapStateToProps = (state)=>{
+    return{
+        user: state.isAuth
+    }
+}
+
+const mapDispatchToProps =(dispatch)=>{
+    return{
+        changeName:(isAuth) =>{dispatch({type:'CHANGE_NAME',payload:isAuth})}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

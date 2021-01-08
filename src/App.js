@@ -1,29 +1,52 @@
-import React from 'react';
+import React,{useState, useEffect, useReducer} from 'react';
 import './App.css';
-import {   
+import { BrowserRouter as Router,  
     Switch,
     Route,
     Link
   } from "react-router-dom";
+ 
+  import Axios from 'axios';  
 import SignIn from './MaterialUI/signin';
 import SignUp from './MaterialUI/signup';
 import Error from './MaterialUI/error';
 import Dashbord from './MaterialUI/Dashbord';
+import PrivateRout from './PrivateRout';
+import { connect } from 'react-redux';
 
-function App() {
+function App(props) {
+
+    const [isAuth, setAuth]=useReducer(props.isAuth);
+
+    console.log(props);
+    // useEffect(()=>{
+    //     setAuth(props.isAuth);
+    // },[])
+
   return (
     <React.Fragment>
     <div className="App">
-        <h1>React Login Auth. Using Node.js & MySql</h1>
-        <Switch>
-            <Route path={"/signin"} component={SignIn} exact />
-            <Route path={"/signup"} component={SignUp} exact />
-            <Route path={"/Dashbord"} component={Dashbord} exact />
-            <Route component={Error}  />  
-        </Switch>
+        <h1>React Login Auth. Using Node.js & MySql {props.isAuth} </h1>
+        
+        <Router>        
+            <Switch>
+                <Route path={"/"} component={SignIn} exact />
+                <Route path={"/signup"} component={SignUp} exact />
+                <PrivateRout path={"/Dashbord"} component={Dashbord} isAuth={isAuth} />
+                <Route component={Error}  />  
+            </Switch>
+        </Router> 
     </div>
     </React.Fragment>
   );
 }
+ 
+const mapStateToProps = (state)=>{
+    return{
+        isAuth: state.isAuth
+    }
+}
 
-export default App;
+
+
+export default connect(mapStateToProps)(App);

@@ -1,6 +1,8 @@
 import React from "react";
+import {withRouter} from "react-router-dom"
 
-
-export default function Error(){
+function Dashbord(){
     return <h1> Dashbord.......</h1>
 }
+
+export default withRouter(Dashbord);
