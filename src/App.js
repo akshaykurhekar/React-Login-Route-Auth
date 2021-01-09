@@ -15,13 +15,8 @@ import PrivateRout from './PrivateRout';
 import { connect } from 'react-redux';
 
 function App(props) {
-
-    const [isAuth, setAuth]=useReducer(props.isAuth);
-
+  
     console.log(props);
-    // useEffect(()=>{
-    //     setAuth(props.isAuth);
-    // },[])
 
   return (
     <React.Fragment>
@@ -32,7 +27,7 @@ function App(props) {
             <Switch>
                 <Route path={"/"} component={SignIn} exact />
                 <Route path={"/signup"} component={SignUp} exact />
-                <PrivateRout path={"/Dashbord"} component={Dashbord} isAuth={isAuth} />
+                <PrivateRout path={"/Dashbord"} component={Dashbord} isAuth={props.isAuth} />
                 <Route component={Error}  />  
             </Switch>
         </Router> 
