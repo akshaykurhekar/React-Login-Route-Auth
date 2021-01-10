@@ -5,8 +5,7 @@ import { BrowserRouter as Router,
     Route,
     Link
   } from "react-router-dom";
- 
-  import Axios from 'axios';  
+
 import SignIn from './MaterialUI/signin';
 import SignUp from './MaterialUI/signup';
 import Error from './MaterialUI/error';
@@ -16,8 +15,6 @@ import { connect } from 'react-redux';
 
 function App(props) {
   
-    console.log(props);
-    console.log(localStorage.getItem('isAuth'));
     const Ls = localStorage.getItem('isAuth');
     const Ps = props.isAuth;
     
@@ -26,16 +23,12 @@ function App(props) {
 
     if(Ps || Ls){
          isAuth=true
-         console.log("Local value: "+isAuth);
+        //  console.log("Local value: "+isAuth);
     }else{
         isAuth = false;
-         console.log("Prop: "+ isAuth );
+        //  console.log("Prop: "+ isAuth );
     }    
 
-    // useEffect(()=>{
-    //     setIsAuth(localStorage.getItem('isAuth'));
-    // },[])
-    
   return (
     <React.Fragment>
     <div className="App">

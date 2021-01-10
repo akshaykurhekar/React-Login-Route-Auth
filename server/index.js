@@ -42,22 +42,17 @@ app.use(session({
 app.post("/api/get",(req,res) =>{
     const Name = req.body.nameUser;
     const password = req.body.password;
-    // console.log("User: "+ Name +" Pass: "+ password);
-    // const sqlInsert= "SELECT * FROM pdotable where name=?, password=?"; 
-  
+   
     db.query("SELECT * FROM pdotable where name=?",[Name],(err,result)=>{
         if(err){
             console.log(err);      
         }else{
             if(result.length > 0){
-                //console.log(result[0].password);
-                //res.send(result);
                 bcrypt.compare(password, result[0].password, (error,response)=>{
                     if(error){
                         res.send({message: "error"});
                     }else{
                         req.session.user =result;
-                        //console.log(req.session.user);
                         res.send({message: "success"});       
                     }
                 })
@@ -90,9 +85,9 @@ app.post("/api/insert",(req,res) => {
         const sqlInsert= "INSERT INTO `pdotable`(`name`,`password`) VALUES(?,?)"; 
         db.query(sqlInsert,[Name , hash],(err,result)=>{
             if(err){
-                console.log("Error:"+err);  
+                res.send(err);  
             }else{
-                console.log(result); 
+                
                 res.send({message:"success"});       
             }
         }); 
@@ -109,21 +104,7 @@ app.put("/api/update",(req,res) => {
     
     const sqlUpdate= "UPDATE `pdotable` SET `name`=? , `password`=? WHERE `id`=?"; 
   db.query(sqlUpdate,[Name , Password, Id],(err,result)=>{
-      console.log("Error:"+err);
-      console.log(result);
-      
-  }); 
-});
-
-// delete request to delete data
-app.delete("/api/delete/:id",(req,res) => {      
-    const Id = req.params.id;
-   
-    const sqlDelete= "DELETE FROM `pdotable` WHERE `id`=?"; 
-
-  db.query(sqlDelete, Id, (err, result) => {
-      console.log("Error:"+err);
-      console.log(result);      
+           
   }); 
 });
 
