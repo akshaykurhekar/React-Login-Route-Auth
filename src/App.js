@@ -1,4 +1,4 @@
-import React,{useState, useEffect, useReducer} from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter as Router,  
     Switch,
@@ -17,17 +17,35 @@ import { connect } from 'react-redux';
 function App(props) {
   
     console.log(props);
+    console.log(localStorage.getItem('isAuth'));
+    const Ls = localStorage.getItem('isAuth');
+    const Ps = props.isAuth;
+    
+    //const [isAuth, setIsAuth] = useState();
+    let isAuth = false;
 
+    if(Ps || Ls){
+         isAuth=true
+         console.log("Local value: "+isAuth);
+    }else{
+        isAuth = false;
+         console.log("Prop: "+ isAuth );
+    }    
+
+    // useEffect(()=>{
+    //     setIsAuth(localStorage.getItem('isAuth'));
+    // },[])
+    
   return (
     <React.Fragment>
     <div className="App">
-        <h1>React Login Auth. Using Node.js & MySql {props.isAuth} </h1>
+        <h1>React Login Auth. Using Node.js & MySql </h1>
         
         <Router>        
             <Switch>
                 <Route path={"/"} component={SignIn} exact />
                 <Route path={"/signup"} component={SignUp} exact />
-                <PrivateRout path={"/Dashbord"} component={Dashbord} isAuth={props.isAuth} />
+                <PrivateRout path={"/Dashbord"} component={Dashbord} isAuth={isAuth} />
                 <Route component={Error}  />  
             </Switch>
         </Router> 

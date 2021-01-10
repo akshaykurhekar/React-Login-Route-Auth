@@ -4,7 +4,7 @@ import {
     Route,    
     Redirect
   } from "react-router-dom";
-  import { useHistory } from "react-router";  
+import { useHistory } from "react-router";  
 import Axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -74,6 +74,7 @@ function SignIn(props) {
             if(response.data.message ==="success")
             { 
               props.changeName(true);
+              localStorage.setItem('isAuth',true);
                history.push('/Dashbord');
                
             }else{
