@@ -4,4 +4,4 @@
 ## Create Node Project
  1. npm init  // creating project in current path.
 ## Login Auth.
- 1. yarn add bcrypt      
+ 1. yarn add bcrypt.
